@@ -2,7 +2,7 @@ export default function handler(req, res) {
   const tokenId = req.query.tokenId;
 
   const image_url =
-    "https://raw.githubusercontent.com/Abdul-Hafeez-Galib/nft-collection/main/app/public/cryptodevs/";
+    "https://raw.githubusercontent.com/LearnWeb3DAO/NFT-Collection/main/my-app/public/cryptodevs/";
 
   res.status(200).json({
     name: "Crypto Dev #" + tokenId,
