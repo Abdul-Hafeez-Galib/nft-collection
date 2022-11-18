@@ -18,9 +18,9 @@ export default function Home() {
   const presaleMint = async () => {
     try {
       const signer = await getProviderOrSigner(true);
-    
-      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
 
+      const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
+     
       const tx = await nftContract.presaleMint({
         value: utils.parseEther("0.01"),
       });
@@ -70,7 +70,7 @@ export default function Home() {
 
       const tx = await nftContract.startPresale();
       setLoading(true);
- 
+  
       await tx.wait();
       setLoading(false);
 
@@ -103,9 +103,9 @@ export default function Home() {
       const provider = await getProviderOrSigner();
 
       const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
-
+ 
       const _presaleEnded = await nftContract.presaleEnded();
-
+ 
       const hasEnded = _presaleEnded.lt(Math.floor(Date.now() / 1000));
       if (hasEnded) {
         setPresaleEnded(true);
@@ -145,7 +145,7 @@ export default function Home() {
       const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, provider);
 
       const _tokenIds = await nftContract.tokenIds();
-
+ 
       setTokenIdsMinted(_tokenIds.toString());
     } catch (err) {
       console.error(err);
@@ -168,7 +168,7 @@ export default function Home() {
     }
     return web3Provider;
   };
-
+ 
   useEffect(() => {
     if (!walletConnected) {
       web3ModalRef.current = new Web3Modal({
@@ -225,7 +225,7 @@ export default function Home() {
     if (!presaleStarted) {
       return (
         <div>
-          <div className={styles.description}>Presale hasn't started!</div>
+          <div className={styles.description}>Presale hasnt started!</div>
         </div>
       );
     }
@@ -257,7 +257,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Crypto Devs</title>
-        <meta name="description" content="NFT-Collection" />
+        <meta name="description" content="Whitelist-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -273,7 +273,7 @@ export default function Home() {
           {renderButton()}
         </div>
         <div>
-          <img className={styles.image} src="./cryptodevs/0.svg" />
+          <img className={styles.image} src="./cryptodevs/1.svg" />
         </div>
       </div>
 
