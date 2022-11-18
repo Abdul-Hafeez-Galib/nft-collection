@@ -153,12 +153,9 @@ export default function Home() {
   };
 
   const getProviderOrSigner = async (needSigner = false) => {
-    // Connect to Metamask
-    // Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
 
-    // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
     if (chainId !== 5) {
       window.alert("Change the network to Goerli");
@@ -173,10 +170,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // if wallet is not connected, create a new instance of Web3Modal and connect the MetaMask wallet
     if (!walletConnected) {
-      // Assign the Web3Modal class to the reference object by setting it's `current` value
-      // The `current` value is persisted throughout as long as this page is open
       web3ModalRef.current = new Web3Modal({
         network: "goerli",
         providerOptions: {},
@@ -184,7 +178,6 @@ export default function Home() {
       });
       connectWallet();
 
-      // Check if presale has started and ended
       const _presaleStarted = checkIfPresaleStarted();
       if (_presaleStarted) {
         checkIfPresaleEnded();
@@ -192,7 +185,6 @@ export default function Home() {
 
       getTokenIdsMinted();
 
-      // Set an interval which gets called every 5 seconds to check presale has ended
       const presaleEndedInterval = setInterval(async function () {
         const _presaleStarted = await checkIfPresaleStarted();
         if (_presaleStarted) {
@@ -203,18 +195,13 @@ export default function Home() {
         }
       }, 5 * 1000);
 
-      // set an interval to get the number of token Ids minted every 5 seconds
       setInterval(async function () {
         await getTokenIdsMinted();
       }, 5 * 1000);
     }
   }, [walletConnected]);
 
-  /*
-      renderButton: Returns a button based on the state of the dapp
-    */
   const renderButton = () => {
-    // If wallet is not connected, return a button which allows them to connect their wllet
     if (!walletConnected) {
       return (
         <button onClick={connectWallet} className={styles.button}>
@@ -223,12 +210,10 @@ export default function Home() {
       );
     }
 
-    // If we are currently waiting for something, return a loading button
     if (loading) {
       return <button className={styles.button}>Loading...</button>;
     }
 
-    // If connected user is the owner, and presale hasnt started yet, allow them to start the presale
     if (isOwner && !presaleStarted) {
       return (
         <button className={styles.button} onClick={startPresale}>
@@ -237,16 +222,14 @@ export default function Home() {
       );
     }
 
-    // If connected user is not the owner but presale hasn't started yet, tell them that
     if (!presaleStarted) {
       return (
         <div>
-          <div className={styles.description}>Presale hasnt started!</div>
+          <div className={styles.description}>Presale hasn't started!</div>
         </div>
       );
     }
 
-    // If presale started, but hasn't ended yet, allow for minting during the presale period
     if (presaleStarted && !presaleEnded) {
       return (
         <div>
@@ -261,7 +244,6 @@ export default function Home() {
       );
     }
 
-    // If presale started and has ended, its time for public minting
     if (presaleStarted && presaleEnded) {
       return (
         <button className={styles.button} onClick={publicMint}>
